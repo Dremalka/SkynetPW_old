@@ -6,9 +6,21 @@ import (
 )
 
 // api
+// отправляет json-ответ с массивом текущих ботов
 func listbot(c *echo.Context) error {
 	//	TODO сформировать список ботов и отправить клиенту
-	return c.String(http.StatusOK, "ok\n")
+	// временные данные
+	type tmpstr struct {
+		ID string
+		Name string
+	}
+	list := make([]tmpstr, 2)
+	list[0].ID = "123"
+	list[0].Name = "abc"
+	list[1].ID = "456"
+	list[1].Name = "dfg"
+
+	return c.JSON(http.StatusOK, list)
 }
 func createbot(c *echo.Context) error {
 	//	TODO создать нового бота
