@@ -22,7 +22,7 @@ func main() {
 	if err != nil {
 		log.Println(err)
 	}
-
+	MW.Start()
 	fmt.Println(MB, MW)
 
 	var response string
