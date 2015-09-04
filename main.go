@@ -7,6 +7,8 @@ import (
 
 //MB глобальная переменная, которая содержит объект Менеджер ботов
 var MB *ManagerBots
+//MW глобальная переменная, которая содержит объект Менеджер веб-интерфейса
+var MW *ManagerWeb
 
 func main() {
 	var err error
@@ -15,7 +17,13 @@ func main() {
 	if err != nil {
 		log.Println(err)
 	}
-	fmt.Fprintln(MB)
+
+	MW, err = newManagerWeb()
+	if err != nil {
+		log.Println(err)
+	}
+
+	fmt.Println(MB, MW)
 
 	var response string
 	fmt.Println("Press Enter")
