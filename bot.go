@@ -2,5 +2,10 @@ package main
 
 //Bot основная структура бота
 type Bot struct {
-//	TODO создать структуру бота
+	ID 			string
+	Name 		string
+	Server 		string
+	Login		string
+	Password	string
+	status 		string
 }
