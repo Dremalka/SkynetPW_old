@@ -1,4 +1,8 @@
 package main
+import (
+	"fmt"
+	"github.com/satori/go.uuid"
+)
 
 //ManagerBots основная структура менеджера ботов
 type ManagerBots struct {
@@ -9,6 +13,18 @@ func newManagerBots() (*ManagerBots, error) {
 	mb := &ManagerBots{}
 	mb.ListBot = make(map[string]*Bot)
 	return mb, nil
+}
+
+// AddBot метод создает нового бота и добавляет в массив
+func (mb *ManagerBots) AddBot(infbot map[string]string) (string, error) {
+	bot, err := newBot(infbot)
+	if err != nil {
+		fmt.Printf("Ошибка при создании нового бота. err: %v", err)
+		return "", err
+	}
+	newuid := uuid.NewV4()
+	mb.ListBot[newuid.String()] = bot
+	return newuid.String(), nil
 }
 
 //Inf структура с информацией по боту для веб-интерфейса
