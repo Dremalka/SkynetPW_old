@@ -2,6 +2,7 @@ package main
 import (
 	"fmt"
 	"github.com/satori/go.uuid"
+	"errors"
 )
 
 //ManagerBots основная структура менеджера ботов
@@ -25,6 +26,43 @@ func (mb *ManagerBots) AddBot(infbot map[string]string) (string, error) {
 	newuid := uuid.NewV4()
 	mb.ListBot[newuid.String()] = bot
 	return newuid.String(), nil
+}
+
+// SendActionToBot выполнить действие
+func (mb *ManagerBots) SendActionToBot(id, action string, param map[string]interface{}) error {
+	var err error
+	bot := mb.ListBot[id]
+	if bot == nil {
+		fmt.Printf("Не найден бот с идентификатором: %s\n", id)
+		err = errors.New("Не найден бот с идентификатором: " + id)
+		return err
+	}
+
+	fmt.Println("action", action)
+
+	switch action {
+	case "start":	// запустить бота
+		err = bot.Start()
+		if err != nil {
+			return err
+		}
+	case "stop":	// остановить бота
+		err = bot.Stop()
+		if err != nil {
+			return err
+		}
+	case "exit":	//удалить бота
+		err = bot.Exit()
+		if err != nil {
+			return err
+		}
+		delete(mb.ListBot, id)
+	case "connect":	// подключить бота к серверу
+//		TODO подключиться к серверу
+	case "disconnect":	// отключить бота от сервера
+//	TODO отключиться от сервера
+	}
+	return nil
 }
 
 //Inf структура с информацией по боту для веб-интерфейса
