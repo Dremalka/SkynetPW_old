@@ -36,3 +36,10 @@ func (bot *Bot) Stop() error {
 //	TODO остановка бота
 	return nil
 }
+
+// Exit остановить (если необходимо) и удалить бота
+func (bot *Bot) Exit() error {
+	fmt.Println("Stop bot and exit.", bot.Name)
+//	TODO остановить и удалить бота
+	return nil
+}
