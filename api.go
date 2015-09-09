@@ -7,11 +7,6 @@ import (
 
 // api
 
-type infbot struct {
-	ID   string
-	Name string
-}
-
 // отправляет json-ответ с массивом текущих ботов
 func listbot(c *echo.Context) error {
 	//	TODO сформировать список ботов и отправить клиенту
