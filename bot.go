@@ -1,4 +1,5 @@
 package main
+import "fmt"
 
 //Bot основная структура бота
 type Bot struct {
@@ -19,4 +20,12 @@ func newBot(infbot map[string]string) (*Bot, error) {
 	bot.Password = infbot["password"]
 
 	return bot, nil
+}
+
+// Start запустить бота
+func (bot *Bot) Start() error {
+	fmt.Println(bot)
+	fmt.Println("Start bot.", bot.Name)
+//	TODO запуск бота
+	return nil
 }
