@@ -29,3 +29,10 @@ func (bot *Bot) Start() error {
 //	TODO запуск бота
 	return nil
 }
+
+// Stop остановить бота
+func (bot *Bot) Stop() error {
+	fmt.Println("Stop bot.", bot.Name)
+//	TODO остановка бота
+	return nil
+}
