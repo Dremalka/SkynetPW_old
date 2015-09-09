@@ -8,7 +8,7 @@ import(
 func Test_newManagerWeb(t *testing.T) {
 	mw, err := newManagerWeb()
 	if err != nil {
-		t.Error("Типовая ошибка при создании нового объекта.")
+		t.Errorf("Типовая ошибка при создании нового объекта. err = %v\n", err)
 	}
 	if mw == nil {
 		t.Error("метод newManagerWeb() не должен возвращать nil.")
@@ -19,7 +19,7 @@ func Test_Start(t *testing.T) {
 	// создать менеджер веб-интерфейса
 	mw, err := newManagerWeb()
 	if err != nil || mw == nil {
-		t.Error("Невозможно проверить создание сервера, т.к. невозможно создать объект Менеджер веб-интерфейса")
+		t.Errorf("Невозможно проверить создание сервера, т.к. невозможно создать объект Менеджер веб-интерфейса. err = %v\n", err)
 	}
 	mw.Start()	// запустить сервер
 
@@ -32,6 +32,6 @@ func Test_Start(t *testing.T) {
 
 	// статус ответа должен быть 200
 	if res.StatusCode != 200 {
-		t.Errorf("Получен код: %d", res.StatusCode)
+		t.Errorf("Получен код: %d. Ожидается: 200.\n", res.StatusCode)
 	}
 }
