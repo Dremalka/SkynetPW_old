@@ -53,11 +53,10 @@ func (mw *ManagerWeb) Start() error {
 		mw.e.Delete("/api/bot/:id", deletebot)              // удалить бота
 
 		//websocket
-		mw.e.WebSocket("/bots/ws", websockdatabots) // вебсокет для динамического обновления информация по списку ботов
+		mw.e.WebSocket("/bots/ws", mw.websockDataBots) // вебсокет для динамического обновления информация по списку ботов
 
 		// служебные вызовы на время разработки
-		mw.e.Get("/api/bots/upd", updateinfbots) // иницировать обновление информации в списке ботов
-		mw.e.Post("/api/bot/test", testbot)
+		mw.e.Get("/api/bots/upd", mw.updateInfBots) // иницировать обновление информации в списке ботов
 
 		//		TODO инициализация настроек сервера (ip с которых можно принимать запросы, порт и т.д.)
 		mw.e.Run(":8080")
