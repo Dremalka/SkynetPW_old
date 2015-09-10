@@ -94,13 +94,13 @@ func (mw *ManagerWeb) websockDataBots(c *echo.Context) error {
 
 	act.Command = "add"	// добавить информацию по новому каналу и вебсокету
 	act.Channel = ch
-	mw.Sign <- ch		// в массив активных вебсокетов
+	mw.Sign <- act		// в массив активных вебсокетов
 
 	defer func() {
 		actdef := Action{}
 		actdef.Command = "del"	// при закрытии вебсокета
 		actdef.Channel = ch
-		mw.Sign <- act			// удалить из массива вебсокет и канал
+		mw.Sign <- actdef			// удалить из массива вебсокет и канал
 	}()
 
 	type List struct {	// структура с данными, которые необходимо отправить на веб-клиент по вебсокету
@@ -125,6 +125,17 @@ func (mw *ManagerWeb) websockDataBots(c *echo.Context) error {
 		ind++
 	}
 	return nil
+}
+
+// updateInfBots посылает сигнал всем обработчикам вебсокетов (websockDataBots) о том, что нужно обновить информацию на веб-клиентах
+func (mw *ManagerWeb) updateInfBots(c *echo.Context) error {
+	// перебрать массив каналов активных вебсокетов
+	for i:=0; i<len(mw.Listch);i++ {
+		ch := mw.Listch[i]
+		ch <- Alarm{}	// каждому отправить сигнал, что необходимо обновить информацию на веб-клиенте
+	}
+	fmt.Println(mw.Listch)
+	return c.String(http.StatusOK, "ok\n")
 }
 
 //Stop метод останавливает веб-интерфейс
