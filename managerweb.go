@@ -47,10 +47,10 @@ func (mw *ManagerWeb) Start() error {
 		mw.e.Get("/", hello) // будущая основная страница
 
 		//api
-		mw.e.Get("/api/bots", listbot)                      // вывести json-список текущих ботов
-		mw.e.Post("/api/bots", createbot)                   // создать нового бота
-		mw.e.Patch("/api/bot/:id/:action", sendactiontobot) // отправить основные команды боту (старт, стоп...)
-		mw.e.Delete("/api/bot/:id", deletebot)              // удалить бота
+		mw.e.Get("/api/bots", listBot)                      // вывести json-список текущих ботов
+		mw.e.Post("/api/bots", createBot)                   // создать нового бота
+		mw.e.Patch("/api/bot/:id/:action", sendActionToBot) // отправить основные команды боту (старт, стоп...)
+		mw.e.Delete("/api/bot/:id", deleteBot)              // удалить бота
 
 		//websocket
 		mw.e.WebSocket("/bots/ws", mw.websockDataBots) // вебсокет для динамического обновления информация по списку ботов
