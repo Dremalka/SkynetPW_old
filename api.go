@@ -21,8 +21,16 @@ func listBot(c *echo.Context) error {
 }
 
 func createBot(c *echo.Context) error {
-	//	TODO создать нового бота
-	return c.String(http.StatusOK, "ok\n")
+	infbot := make(map[string]string)
+	infbot["name"] = c.Query("name")
+	infbot["server"] = c.Query("server")
+	infbot["login"] = c.Query("login")
+	infbot["password"] = c .Query("password")
+	id, err := MB.AddBot(infbot)
+	if err != nil {
+		fmt.Println(err)
+	}
+	return c.String(http.StatusOK, id)
 }
 
 // sendActionToBot отправить команду боту
