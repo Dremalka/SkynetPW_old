@@ -5,6 +5,9 @@ import (
 	mid "github.com/labstack/echo/middleware"
 	"net/http"
 	"fmt"
+	"strconv"
+	"encoding/json"
+	"golang.org/x/net/websocket"
 )
 
 // ManagerWeb основная стркутура объекта Менеджер веб-интерфейса
@@ -80,6 +83,48 @@ func (mw *ManagerWeb) manager(ch <-chan Action) {
 		}
 		fmt.Println(mw.Listch)
 	}
+}
+
+// websockDataBots метод отправляет по вебсокету к веб-клиенту обновленную информацию по ботам при получении сигнала из канала
+func (mw *ManagerWeb) websockDataBots(c *echo.Context) error {
+	act := Action{}		// структура действий с массивом активных вебсокетов (добавить, удалить...)
+	ws := c.Socket()	// открытый вебсокет
+
+	ch := make(chan Alarm)	// канал, по сигналу которого будет отправляться обновленная информация по боту на веб-клиенту через вебсокет
+
+	act.Command = "add"	// добавить информацию по новому каналу и вебсокету
+	act.Channel = ch
+	mw.Sign <- ch		// в массив активных вебсокетов
+
+	defer func() {
+		actdef := Action{}
+		actdef.Command = "del"	// при закрытии вебсокета
+		actdef.Channel = ch
+		mw.Sign <- act			// удалить из массива вебсокет и канал
+	}()
+
+	type List struct {	// структура с данными, которые необходимо отправить на веб-клиент по вебсокету
+		ID 		int 	`json:"id"`		// идентификатор бота
+		Name	string 	`json:"name"`	// имя бота
+	}
+
+	ind := 0
+
+	for {
+		var st List	// создать структуру с данными бота
+		st.ID	= ind
+		st.Name	= "name-" + strconv.Itoa(ind)
+
+		msg, _ := json.Marshal(st)	// сконвертировать структуру для отправки по вебсокету
+		err := websocket.Message.Send(ws, string(msg))	// отправить данные веб-клиенту по вебсокету
+		if err != nil {
+			return err
+		}
+
+		<-ch	// ждать следующего сигнала для обновления информации
+		ind++
+	}
+	return nil
 }
 
 //Stop метод останавливает веб-интерфейс
