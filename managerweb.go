@@ -4,6 +4,7 @@ import (
 	"github.com/labstack/echo"
 	mid "github.com/labstack/echo/middleware"
 	"net/http"
+	"fmt"
 )
 
 // ManagerWeb основная стркутура объекта Менеджер веб-интерфейса
@@ -60,6 +61,25 @@ func (mw *ManagerWeb) Start() error {
 	}()
 
 	return nil
+}
+
+// manager фоновая горутина, отслеживает актуальный список подключившихся веб-клиентов
+func (mw *ManagerWeb) manager(ch <-chan Action) {
+	for {
+		act := <-ch // получить команду
+		switch act.Command {
+		case "add":		// добавить в масиив канал, который слушает новый вебсокет
+			mw.Listch = append(mw.Listch, act.Channel)
+		case "del":		// удалить из массива канал
+			for i:= 0; i < len(mw.Listch); i++ {
+				if mw.Listch[i] == act.Channel {
+					mw.Listch = append(mw.Listch[:i], mw.Listch[i+1:]...)
+					break
+				}
+			}
+		}
+		fmt.Println(mw.Listch)
+	}
 }
 
 //Stop метод останавливает веб-интерфейс
