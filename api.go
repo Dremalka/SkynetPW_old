@@ -3,6 +3,8 @@ package main
 import (
 	"github.com/labstack/echo"
 	"net/http"
+	"strconv"
+	"fmt"
 )
 
 // api
@@ -22,8 +24,30 @@ func createBot(c *echo.Context) error {
 	//	TODO создать нового бота
 	return c.String(http.StatusOK, "ok\n")
 }
+
+// sendActionToBot отправить команду боту
 func sendActionToBot(c *echo.Context) error {
-	//	TODO переслать команду боту (старт, стоп...)
+	param := make(map[string]interface{})
+	id := c.Param("id")			// распарсить и получить id
+	action := c.Param("action")	// и команду
+
+	switch action {
+	case "update":
+		ProcessID, _ := strconv.Atoi(c.Query("ProcessID"))
+		param["ProcessID"] = ProcessID
+	case "connect":
+		infbot := make(map[string]string)
+		infbot["name"] = "bot1"
+		id, _ = MB.AddBot(infbot)
+	case "disconnect":
+//		TODO отключить бота от игрового клиента
+	}
+
+	err := MB.SendActionToBot(id, action, param)	// отправить команду боту
+	if err != nil {
+		fmt.Println(err)
+	}
+
 	return c.String(http.StatusOK, "ok\n")
 }
 func deleteBot(c *echo.Context) error {
