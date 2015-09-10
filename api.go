@@ -20,6 +20,8 @@ func listBot(c *echo.Context) error {
 	return c.JSON(http.StatusOK, list)
 }
 
+// createBot получает от веб-клиента данные и передает сформированную структуру менеджеру ботов
+// для создания нового бота
 func createBot(c *echo.Context) error {
 	infbot := make(map[string]string)
 	infbot["name"] = c.Query("name")
@@ -58,7 +60,12 @@ func sendActionToBot(c *echo.Context) error {
 
 	return c.String(http.StatusOK, "ok\n")
 }
+
+// deleteBot получает команду от веб-клиента (удалить бота) и перенаправляет ее менеджеру ботов
 func deleteBot(c *echo.Context) error {
-	//	TODO удалить бота
+	id := c.Param("id")
+	action := "delete"
+	MB.SendActionToBot(id, action, nil)
+
 	return c.String(http.StatusOK, "ok\n")
 }
