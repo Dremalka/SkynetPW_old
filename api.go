@@ -30,19 +30,3 @@ func deletebot(c *echo.Context) error {
 	//	TODO удалить бота
 	return c.String(http.StatusOK, "ok\n")
 }
-
-//websocket
-func websockdatabots(c *echo.Context) error {
-	//	TODO создать вебсокет для динамического обмена данными
-	return nil
-}
-
-//отладочные функции
-func updateinfbots(c *echo.Context) error {
-	//	TODO иницировать обновление по вебсокету данных по ботам
-	return c.String(http.StatusOK, "ok\n")
-}
-func testbot(c *echo.Context) error {
-	//	TODO функция для отладки бота
-	return c.String(http.StatusOK, "ok\n")
-}
