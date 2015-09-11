@@ -17,6 +17,7 @@ func main() {
 	if err != nil {
 		log.Println(err)
 	}
+	defer MB.db.Close()
 
 	MW, err = newManagerWeb()
 	if err != nil {
