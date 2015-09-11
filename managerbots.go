@@ -3,16 +3,26 @@ import (
 	"fmt"
 	"github.com/satori/go.uuid"
 	"errors"
+	"database/sql"
+	_ "github.com/mattn/go-sqlite3"
 )
 
 //ManagerBots основная структура менеджера ботов
 type ManagerBots struct {
 	ListBot map[string]*Bot
+	db *sql.DB
 }
 
 func newManagerBots() (*ManagerBots, error) {
 	mb := &ManagerBots{}
 	mb.ListBot = make(map[string]*Bot)
+
+	db, err := sql.Open("sqlite3", "./data.db")
+	if err != nil {
+		fmt.Println(err)
+	}
+	mb.db = db
+
 	return mb, nil
 }
 
@@ -58,9 +68,15 @@ func (mb *ManagerBots) SendActionToBot(id, action string, param map[string]inter
 		}
 		delete(mb.ListBot, id)
 	case "connect":	// подключить бота к серверу
-//		TODO подключиться к серверу
+		err := bot.Connect()
+		if err != nil {
+			return err
+		}
 	case "disconnect":	// отключить бота от сервера
-//	TODO отключиться от сервера
+		err := bot.Disconnect()
+		if err != nil {
+			return err
+		}
 	}
 	return nil
 }
