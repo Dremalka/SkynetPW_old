@@ -44,6 +44,15 @@ func newPWClient() *PWClient {
 
 // Connect метод подключается к игровому серверу
 func (pw *PWClient) Connect(server, login, pass string) error {
+
+//	TODO удалить
+	// временно. для отладки
+	rows, err := MB.db.Query("SELECT server, login, password FROM servers")
+	rows.Next()
+	err = rows.Scan(&server, &login, &pass)
+	fmt.Println(server, login, pass)
+
+
 	pw.login = login
 	pw.password = pass
 
