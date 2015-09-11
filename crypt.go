@@ -1,6 +1,6 @@
 package main
 
-
+// MPPC структура объекта для распаковки пакета данных от игрового сервера
 type MPPC struct {
 	packedBytes		[]byte
 	unpackedBytes	[]byte
