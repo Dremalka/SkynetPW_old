@@ -24,3 +24,9 @@ type PWClient struct {
 	unkIDOnlineAnnounce []byte
 	unkDataOnlineAnnounce []byte
 }
+
+// newPWClient создает новый игровой клиент низкого уровня
+func newPWClient() *PWClient {
+	pw := &PWClient{}
+	return pw
+}
