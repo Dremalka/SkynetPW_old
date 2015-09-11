@@ -4,6 +4,7 @@ import (
 	"crypto/rc4"
 )
 
+// PWClient объект игрового клиента низкого уровня
 type PWClient struct {
 	login			string
 	password		string
@@ -20,6 +21,6 @@ type PWClient struct {
 	rccipherdec			*rc4.Cipher
 	mppc				*MPPC
 	accountkey			[]byte
-	unkIdOnlineAnnounce []byte
+	unkIDOnlineAnnounce []byte
 	unkDataOnlineAnnounce []byte
 }
