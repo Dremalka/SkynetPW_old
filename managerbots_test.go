@@ -14,7 +14,7 @@ func Test_NewManagerBots(t *testing.T) {
 	} else {
 		someval := make(map[string]*Bot)
 		if reflect.DeepEqual(mb.ListBot, someval) != true {
-			t.Errorf("Не инициализирован массив списка ботов. %q != %q", mb.ListBot, someval)
+			t.Errorf("Не инициализирован массив списка ботов. %v != %v", mb.ListBot, someval)
 		}
 	}
 
