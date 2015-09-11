@@ -48,9 +48,9 @@ func (bot *Bot) Exit() error {
 // Connect Метод подключения к игровому серверу
 func (bot *Bot) Connect() error {
 	fmt.Println("Bot.Connect()", bot.Server, bot.Login, bot.Password)
-	pwclient := newPWClient()
-	bot.pw = pwclient
-	err := pwclient.Connect(bot.Server, bot.Login, bot.Password)
+	pw := newPWClient()
+	bot.pw = pw
+	err := pw.Connect(bot.Server, bot.Login, bot.Password)
 	if err != nil {
 		return err
 	}
