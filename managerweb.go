@@ -123,7 +123,7 @@ func (mw *ManagerWeb) websockDataBots(c *echo.Context) error {
 		<-ch	// ждать следующего сигнала для обновления информации
 		ind++
 	}
-	return nil
+	//return nil
 }
 
 // updateInfBots посылает сигнал всем обработчикам вебсокетов (websockDataBots) о том, что нужно обновить информацию на веб-клиентах
