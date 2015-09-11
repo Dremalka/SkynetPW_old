@@ -9,6 +9,7 @@ type Bot struct {
 	Login		string
 	Password	string
 	status 		string
+	pw 			*PWClient
 }
 
 // newBot создать новый объект бота
@@ -41,5 +42,24 @@ func (bot *Bot) Stop() error {
 func (bot *Bot) Exit() error {
 	fmt.Println("Stop bot and exit.", bot.Name)
 //	TODO остановить и удалить бота
+	return nil
+}
+
+// Connect Метод подключения к игровому серверу
+func (bot *Bot) Connect() error {
+	fmt.Println("Bot.Connect()", bot.Server, bot.Login, bot.Password)
+	pwclient := newPWClient()
+	bot.pw = pwclient
+	err := pwclient.Connect(bot.Server, bot.Login, bot.Password)
+	if err != nil {
+		return err
+	}
+
+	return nil
+}
+
+// Disconnect Метод отключения от игрового сервера
+func (bot *Bot) Disconnect() error {
+// TODO отключиться от сервера
 	return nil
 }
