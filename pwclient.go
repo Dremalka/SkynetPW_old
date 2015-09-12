@@ -1,6 +1,7 @@
 package main
 import (
 	"net"
+	"strconv"
 	"crypto/rc4"
 	"fmt"
 	"strings"
@@ -8,7 +9,6 @@ import (
 	"net/url"
 	"net/http"
 	"bytes"
-	"strconv"
 	"io/ioutil"
 	"encoding/xml"
 	"encoding/binary"
@@ -50,7 +50,6 @@ func (pw *PWClient) Connect(server, login, pass string) error {
 	rows, err := MB.db.Query("SELECT server, login, password FROM servers")
 	rows.Next()
 	err = rows.Scan(&server, &login, &pass)
-	fmt.Println(server, login, pass)
 
 
 	pw.login = login
